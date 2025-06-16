@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* עיצוב מותאם אישית
+body {
+    @apply bg-ai-dark text-white;
+    font-family: 'Heebo', sans-serif;
+  } */
+
