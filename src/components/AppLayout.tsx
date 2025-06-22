@@ -4,6 +4,7 @@ import { Dumbbell, User, Menu, X, LogOut } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import Button from './ui/Button';
 import { cn } from '../lib/utils';
+import defaultImage from '../images/logo.png'; // שנה את השם והנתיב לקובץ שלך
 
 const AppLayout: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -36,8 +37,13 @@ const AppLayout: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
-              <Dumbbell className="h-8 w-8 text-blue-600" />
-              <span className="mr-2 text-xl font-bold text-gray-900">פיט-גים</span>
+              {/* <Dumbbell className="h-8 w-8 text-blue-600" /> */}
+               <img
+                  src={defaultImage}
+                  // alt="תיאור התמונה"
+                  className="h-15 w-20 object-contain"
+                />
+              {/* <span className="mr-2 text-xl font-bold text-gray-900">פיט-גים</span> */}
             </div>
             
             {/* Desktop navigation */}

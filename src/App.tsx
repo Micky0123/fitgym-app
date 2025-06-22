@@ -36,6 +36,8 @@ import SystemInitPage from './pages/admin/system-init/SystemInitPage';
 import GraphManagement from './pages/admin/system-init/GraphManager';
 import DeviceMuscleEdgeManagement from './pages/admin/system-init/DeviceMuscleEdgeManagement';
 import MuscleEdgeManagement from './pages/admin/system-init/MuscleEdgeManagement';
+import SchedulerInitForm from './pages/admin/system-init/SchedulerInitForm'; 
+
 
 const App: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -203,6 +205,7 @@ const App: React.FC = () => {
           } />
 
           <Route path="/admin/system-init" element={<SystemInitPage />} />
+           <Route path="/admin/system-init/initialize-scheduler-form" element={<SchedulerInitForm />} />
           <Route path="admin/system-init/GraphManagement" element={
             <ProtectedRoute requiresAdmin>
               <GraphManagement />

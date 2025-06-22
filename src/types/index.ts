@@ -212,7 +212,8 @@ export interface TrainingPlan {
   planDays: PlanDay[]; // וודא שזה קיים כאן!
 }
 
-export type ActiveTrainingPlanResponse = TrainingPlan | null;
+
+///export type ActiveTrainingPlanResponse = TrainingPlan | null;
 
 // Training duration
 export interface TrainingDuration {
@@ -243,7 +244,8 @@ export interface PlanDay {
   dayOrder: number;
   creationDate: string; // ISO date string
   isDefaultProgram: boolean;
-  parentProgramId?: number;
+  isCompletedThisWeek: boolean; // This field exists in the PlanDay array you provided
+  parentProgramId?: number | null;
   isHistoricalProgram: boolean;
 }
 
@@ -283,14 +285,16 @@ export interface ExercisePlan{
   exercisePlanId: number;
   planDayId: number;
   exerciseId: number;
-  orderInDay: number;
-  sets: number;
-  reps: number;
-  weight?: number; // אופציונלי
-  restTime?: number; // אופציונלי
-  // ... שדות נוספים מ-ExercisePlanDTO מה-backend
-  // נצטרך גם את פרטי התרגיל עצמו, אז אולי נצרף לכאן ExerciseDTO
-  // או שנאחזר אותם בנפרד
+  indexOrder: number;
+  planSets: number;
+  planRepetitionsMin: number;
+  planRepetitionsMax:number;
+  planWeight?: number; 
+  timesMin: number; 
+  categoryId:number;
+  timesMax: number; 
+  subMuscleId?:number;
+  trainingDateTime:Date;
   exercise?: Exercise; // חשוב: אם ה-backend מחזיר את זה בתוך ה-ExercisePlanDTO
 }
 
@@ -386,6 +390,39 @@ export type ExerciseStatusEntry = {
   exerciseDetails?: Exercise; // פרטי התרגיל
 };
 
+// ממשק עבור הנתונים הנדרשים לאתחול הסקדולר
+export interface SchedulerInitRequest {
+  slotMinutes: number;
+  slotCount: number;
+}
+
+// Represents the response for a single Plan Day in the frontend
+export interface PlanDayResponseForFrontend {
+  PlanDayId: number;
+  ProgramName: string;
+  DayOrder: number;
+  IsDefaultProgram: boolean;
+  IsCompletedThisWeek: boolean; // This is the crucial field we added
+}
+
+// Represents the overall active training plan response for the trainee
+export interface ActiveTrainingPlanResponse {
+  trainingPlanId: number;
+  traineeId: number;
+  traineeName: string;
+  goalId: number;
+  trainingDays: number;
+  trainingDurationId: number;
+  fitnessLevelId: number;
+  startDate: string; // ISO date string
+  endDate: string; // ISO date string
+  isActive: boolean;
+  planDays: PlanDay[]; // Now directly uses the camelCase PlanDay
+}
+
+
+
+
 
 // טיפוס עבור תגובת GetNextExerciseInWorkout
 export type NextExerciseResponse = {
@@ -411,5 +448,7 @@ export type ExerciseEntry = {
   // restTime: number | null;
   // timesMax: number | null;
   // timesMin: number | null;
-  exerciseDetails?: Exercise; // פרטי התרגיל המלאים
+  exerciseDetails?: ExercisePlan; // פרטי התרגיל המלאים
 };
+
+

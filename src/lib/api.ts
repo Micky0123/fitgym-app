@@ -130,19 +130,118 @@ const api = axios.create({
 
 import { TrainingPlan, MultiplePlansResponseItem, ActiveTrainingPlanResponse } from '../types'; // ייבא את ה-Type המעודכן
 //import { RunAlgorithmRequest, StartOrCompleteExerciseRequest, Trainee, ExercisePlan, Exercise } from '../types';
-import { Trainee, PathResult, NextExerciseResponse } from '../types'; // וודאי שייבאת את ה-types הרלוונטיים
+import { Trainee, PathResult, NextExerciseResponse,SchedulerInitRequest } from '../types'; // וודאי שייבאת את ה-types הרלוונטיים
 
 // Base API configuration (ללא שינוי)
 
+
+export const formatApiError = (error: any): string => {
+  if (axios.isAxiosError(error)) {
+    // זהו אובייקט שגיאה של Axios
+    if (error.response) {
+      // השרת הגיב עם סטטוס שגיאה (לדוגמה, 400, 401, 404, 409, 500)
+      const { data, status, statusText } = error.response;
+
+      if (data) {
+        // המבנה הצפוי מאובייקט ProblemDetails של ASP.NET Core:
+        // { type: "...", title: "...", status: N, detail: "...", errors: { ... } }
+
+        if (typeof data === 'string') {
+          // אם ה-data הוא סטרינג פשוט (לפעמים שרתים מחזירים כך)
+          return data;
+        }
+
+        if (data.errors && typeof data.errors === 'object') {
+          // אם יש שגיאות ולידציה מפורטות (בדרך כלל 400 Bad Request)
+          const errorMessages: string[] = [];
+          for (const key in data.errors) {
+            if (Object.prototype.hasOwnProperty.call(data.errors, key)) {
+              const messages = data.errors[key];
+              if (Array.isArray(messages)) {
+                errorMessages.push(...messages);
+              } else if (typeof messages === 'string') {
+                errorMessages.push(messages);
+              }
+            }
+          }
+          if (errorMessages.length > 0) {
+            return `Validation Errors: ${errorMessages.join(' | ')}`;
+          }
+        }
+
+        if (data.title) {
+          // אם יש כותרת לשגיאה (ProblemDetails)
+          return data.title;
+        }
+
+        if (data.detail) {
+          // אם יש פרטים נוספים על השגיאה
+          return data.detail;
+        }
+
+        // גיבוי: אם data הוא אובייקט אבל אין בו שדות ספציפיים
+        return `Server Error: ${status} - ${statusText || 'Unknown'}. Response: ${JSON.stringify(data)}`;
+      }
+
+      // אם אין data, אבל יש סטטוס ו-statusText
+      return `Server Error: ${status} - ${statusText || 'Unknown'}.`;
+
+    } else if (error.request) {
+      // הבקשה בוצעה, אך לא התקבלה תגובה (לדוגמה, שרת לא זמין)
+      return 'Network Error: No response from server. Please check your internet connection or try again later.';
+    } else {
+      // משהו קרה בהגדרת הבקשה שגרם לשגיאה
+      return `Request Error: ${error.message}`;
+    }
+  } else if (error instanceof Error) {
+    // שגיאת JavaScript רגילה (לדוגמה, הודעה שזרקנו ידנית)
+    return error.message;
+  }
+
+  // גיבוי לכל מקרה אחר, אם ה-error אינו אובייקט Error או AxiosError
+  return 'An unexpected error occurred. Please try again.';
+};
 // Auth endpoints
 export const authApi = {
   login: async (username: string, password: string) => {
     const response = await api.post('/Trainee/Login', { username, password });
     return response.data;
   },
+  // register: async (userData: any) => {
+  //   const response = await api.post('/Trainee', userData);
+  //   return response.data;
+  // },
+
   register: async (userData: any) => {
-    const response = await api.post('/Trainee', userData);
-    return response.data;
+    try {
+      // שינוי כאן:
+      // 1. ה-URL השתנה ל '/Trainee/Register'
+      // 2. אנו שולחים את ה-userData ישירות, שצריך להכיל את כל השדות של RegisterRequest
+      const response = await api.post('/Trainee/Register', userData);
+      return response.data; // ה-createdTrainee שהוחזר מהבקאנד
+    } catch (error) {
+      // if (axios.isAxiosError(error) && error.response) {
+      //   // טיפול בשגיאות ספציפיות מהבקאנד, לדוגמה Conflict (409) או Bad Request (400)
+      //   console.error('Registration error:', error.response.data);
+      //   throw new Error(error.response.data || 'Registration failed'); // זרוק את הודעת השגיאה מהשרת
+      // }
+        if (axios.isAxiosError(error) && error.response) {
+        // המבנה של error.response.data יכול להיות שונה.
+        // אם השרת מחזיר object עם keys {type, title, status, errors, traceId},
+        // סביר להניח שזה אובייקט ProblemDetails (שגיאת ברירת מחדל של ASP.NET Core API).
+        
+        // ננסה לגשת למאפיין 'title' או 'detail' או 'errors'
+        const errorMessage = error.response.data.title || // אם קיים title
+                             error.response.data.detail || // אם קיים detail
+                             JSON.stringify(error.response.data); // כגיבוי, נמיר לסטרינג
+        
+        console.error('Registration error:', error.response.data);
+        // זרוק אובייקט Error עם הודעת סטרינג
+        throw new Error(errorMessage || 'Registration failed due to server error.'); 
+}
+      console.error('An unexpected error occurred during registration:', error);
+      throw new Error('An unexpected error occurred during registration.');
+    }
   },
   // Existing methods...
 
@@ -617,7 +716,8 @@ export const trainingPlanApi = {
   //   return response.data;
   // },
   getActivePlans: async (traineeId: number): Promise<ActiveTrainingPlanResponse> => { // <-- כאן משתמשים ב-ActiveTrainingPlanResponse
-    const response = await api.get<TrainingPlan>(`/TrainingPlan/active/${traineeId}`); // <-- axios יצפה ל-TrainingPlan
+    //const response = await api.get<TrainingPlan>(`/TrainingPlan/active/${traineeId}`); // <-- axios יצפה ל-TrainingPlan
+    const response = await api.get<ActiveTrainingPlanResponse>(`/TrainingPlan/active/${traineeId}`); // <-- axios יצפה ל-ActiveTrainingPlanResponse
     // אם ה-Backend מחזיר 404 במקרה של "לא נמצא", ה-catch בלוק יטפל בזה.
     // אם ה-Backend מחזיר 200 OK עם null, אז response.data יהיה null.
     return response.data;
@@ -682,6 +782,23 @@ export const activeWorkoutApi = {
     const response = await api.get(`/Trainee/${traineeId}`); // התאם את הנתיב אם שונה
     return response.data;
   },
+    getTraineeActiveTrainingPlan: async (traineeId: number): Promise<ActiveTrainingPlanResponse> => {
+    const response = await api.get(`/ActiveWorkout/active-plan/${traineeId}`);
+    return response.data;
+  },
+};
+
+
+export const schedulerApi = {
+  initializeScheduler: async (data: SchedulerInitRequest): Promise<string> => {
+      const response = await api.post<string>(`/ActiveWorkout/initialize`, data);
+      return response.data; // השרת מחזיר הודעת טקסט בהצלחה
+  },
+
+  resetScheduler: async (): Promise<string> => {
+      const response = await api.post<string>(`/ActiveWorkout/reset`);
+      return response.data; // השרת מחזיר הודעת טקסט בהצלחה
+    }
 };
 
 // export const activeWorkoutApi = {

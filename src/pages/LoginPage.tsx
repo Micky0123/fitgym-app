@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dumbbell, LogIn, UserPlus, Lock, Mail } from 'lucide-react';
+import { LogIn, UserPlus, Lock, Mail } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { motion } from 'framer-motion';
+import defaultImage from '../images/logo.png'; 
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -39,11 +40,17 @@ const LoginPage: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="mb-6 flex justify-center">
-            <Dumbbell className="h-12 w-12 text-blue-600" />
+            {/* <Dumbbell className="h-12 w-12 text-blue-600" /> */}
+            <img
+                  src={defaultImage}
+                  // alt="תיאור התמונה"
+                  className="h-25 w-25 object-contain"
+            />
           </div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+
+          <h3 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             התחברות למערכת
-          </h2>
+          </h3>
           <p className="mt-2 text-center text-sm text-gray-600">
             ברוכים הבאים למערכת ניהול האימונים
           </p>
