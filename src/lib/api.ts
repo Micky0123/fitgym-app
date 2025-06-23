@@ -786,6 +786,29 @@ export const activeWorkoutApi = {
     const response = await api.get(`/ActiveWorkout/active-plan/${traineeId}`);
     return response.data;
   },
+   // נקודת קצה חדשה עבור כל האימונים הפעילים
+  // getAllActiveWorkouts: async (): Promise<ActiveTrainingPlanResponse[]> => {
+  //   const response = await api.get(`/ActiveWorkout/all-active-workouts`);
+  //   return response.data;
+  // },
+  getAllActiveWorkouts: async () => {
+        try {
+            const response = await api.get(`/ActiveWorkout/all-active-workouts`);
+            return response.data; // PathResult[]
+        } catch (error) {
+            console.error('Error getting all active workouts:', error);
+            throw error;
+        }
+    },
+  GetAllActiveTraineesIds: async () => {
+        try {
+            const response = await api.get(`/ActiveWorkout/all-trainees`);
+            return response.data; // trainee[]
+        } catch (error) {
+            console.error('Error getting all active workouts:', error);
+            throw error;
+        }
+    },
 };
 
 

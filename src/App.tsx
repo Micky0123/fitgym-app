@@ -37,7 +37,7 @@ import GraphManagement from './pages/admin/system-init/GraphManager';
 import DeviceMuscleEdgeManagement from './pages/admin/system-init/DeviceMuscleEdgeManagement';
 import MuscleEdgeManagement from './pages/admin/system-init/MuscleEdgeManagement';
 import SchedulerInitForm from './pages/admin/system-init/SchedulerInitForm'; 
-
+import TraineeDashboardPage from './pages/TraineeDashboardPage'; // דף לוח המחוונים של המתאמן
 
 const App: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -224,6 +224,7 @@ const App: React.FC = () => {
             </ProtectedRoute>
           } />
         </Route>
+         <Route path="/trainee-dashboard" element={<TraineeDashboardPage />} /> {/* הוסף ניתוב לדף החדש */}
 
  
         {/* 404 route */}
