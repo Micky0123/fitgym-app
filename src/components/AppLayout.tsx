@@ -149,17 +149,39 @@ const AppLayout: React.FC = () => {
               דף הבית
             </Button>
             {user.isAdmin ? (
-              <Button 
-                variant="ghost" 
-                fullWidth
-                onClick={() => {
-                  navigate('/admin');
-                  setIsMobileMenuOpen(false);
-                }}
-                className="block text-right w-full text-gray-600 hover:text-gray-900"
-              >
-                ניהול
-              </Button>
+              // <Button 
+              //   variant="ghost" 
+              //   fullWidth
+              //   onClick={() => {
+              //     navigate('/admin');
+              //     setIsMobileMenuOpen(false);
+              //   }}
+              //   className="block text-right w-full text-gray-600 hover:text-gray-900"
+              // >
+              //   ניהול
+              // </Button>
+               <>
+                  <Button 
+                    variant="ghost" 
+                    fullWidth
+                    onClick={() => {
+                    navigate('/admin');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block text-right w-full text-gray-600 hover:text-gray-900"
+                  >
+                    ניהול
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    fullWidth
+                    onClick={() => navigate('/admin/system-init')}
+                    className="block text-right w-full text-gray-600 hover:text-gray-900"
+                  >
+                    אתחול מערכת
+                  </Button>
+
+                </>
             ) : (
               <Button 
                 variant="ghost" 

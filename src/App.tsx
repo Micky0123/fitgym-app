@@ -38,6 +38,7 @@ import DeviceMuscleEdgeManagement from './pages/admin/system-init/DeviceMuscleEd
 import MuscleEdgeManagement from './pages/admin/system-init/MuscleEdgeManagement';
 import SchedulerInitForm from './pages/admin/system-init/SchedulerInitForm'; 
 import TraineeDashboardPage from './pages/TraineeDashboardPage'; // דף לוח המחוונים של המתאמן
+import { WorkoutRefreshProvider } from './context/WorkoutRefreshContext'; // ייבוא הפרובידר
 
 const App: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -91,7 +92,7 @@ const App: React.FC = () => {
           {isDarkMode ? 'מצב בהיר' : 'מצב כהה'}
         </button>
       </header> */}
-
+<WorkoutRefreshProvider> {/* עוטפים כאן */}
       <Routes>
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
@@ -230,6 +231,7 @@ const App: React.FC = () => {
         {/* 404 route */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+          </WorkoutRefreshProvider>
     </>
   );
 };

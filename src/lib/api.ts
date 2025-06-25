@@ -128,7 +128,7 @@ const api = axios.create({
   },
 });
 
-import { TrainingPlan, MultiplePlansResponseItem, ActiveTrainingPlanResponse } from '../types'; // ייבא את ה-Type המעודכן
+import { TrainingPlan, MultiplePlansResponseItem, ActiveTrainingPlanResponse, ExercisePlan } from '../types'; // ייבא את ה-Type המעודכן
 //import { RunAlgorithmRequest, StartOrCompleteExerciseRequest, Trainee, ExercisePlan, Exercise } from '../types';
 import { Trainee, PathResult, NextExerciseResponse,SchedulerInitRequest } from '../types'; // וודאי שייבאת את ה-types הרלוונטיים
 
@@ -1025,6 +1025,50 @@ export const muscleEdgeApi = {
   },
 };
 
+
+export const exercisePlanApi = {
+    // קבלת כל תוכניות התרגיל
+    getAll: async (): Promise<ExercisePlan[]> => {
+        const response = await api.get('/ExercisePlan');
+        return response.data;
+    },
+
+    // קבלת תוכנית תרגיל לפי מזהה (ExercisePlanId)
+    getById: async (id: number): Promise<ExercisePlan> => {
+        const response = await api.get(`/ExercisePlan/${id}`);
+        return response.data;
+    },
+
+    // יצירת תוכנית תרגיל חדשה
+    create: async (data: ExercisePlan): Promise<string> => {
+        const response = await api.post('/ExercisePlan', data);
+        return response.data; // השרת מחזיר הודעת הצלחה
+    },
+
+    // עדכון תוכנית תרגיל קיימת
+    update: async (id: number, data: ExercisePlan): Promise<string> => {
+        const response = await api.put(`/ExercisePlan/${id}`, data);
+        return response.data; // השרת מחזיר הודעת הצלחה
+    },
+
+    // מחיקת תוכנית תרגיל
+    delete: async (id: number): Promise<string> => {
+        const response = await api.delete(`/ExercisePlan/${id}`);
+        return response.data; // השרת מחזיר הודעת הצלחה
+    },
+
+    // **הערה חשובה לגבי getExercisesForPlanDay:**
+    // הפונקציה הזו לא קיימת כרגע בקונטרולר ה-C# שסיפקת תחת הנתיב `/api/ExercisePlan/{planDayId}/exercises`.
+    // אם אתה רוצה שהיא תעבוד, תצטרך להוסיף אותה לקונטרולר ה-C# שלך, לדוגמה כך:
+    // [HttpGet("planDay/{planDayId}/exercises")]
+    // public async Task<ActionResult<List<ExercisePlanDTO>>> GetExercisesForPlanDay(int planDayId) { ... }
+    getExercisesForPlanDay: async (planDayId: number): Promise<ExercisePlan[]> => {
+        // הנתיב הזה מבוסס על ההנחה שקיימת נקודת קצה כזו בבקר ה-C# שלך.
+        // אם היא לא קיימת, קריאה זו תיכשל ב-404.
+        const response = await api.get(`/ExercisePlan/planDay/${planDayId}/exercises`);
+        return response.data;
+    },
+};
 
 // Intercept requests to add auth token
 api.interceptors.request.use(

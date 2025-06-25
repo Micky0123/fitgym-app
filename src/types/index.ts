@@ -317,9 +317,13 @@ export interface ExercisePlan {
 
 export interface PlanDay {
   planDayId: number;
-  dayOrder: number;
-  programName: string;
-  // ... שדות נוספים של PlanDay
+  TrainingPlanId : number; // הוספתי את זה כדי לקשר לתוכנית האימון
+  ProgramName?: string;
+  dayOrder: number; // שם התוכנית, אם קיים
+  creationDate: string; // תאריך יצירה בפורמט ISO
+  isDefaultProgram: boolean;
+  parentProgramId?: number | null; // אופציונלי, יכול להיות null אם
+  isHistoricalProgram: boolean; // האם זה תוכנית היסטורית       
 }
 
 
