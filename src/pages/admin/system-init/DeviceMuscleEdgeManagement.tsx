@@ -75,9 +75,9 @@ const DeviceMuscleEdgeManagement: React.FC = () => {
           </Button>
         </div>
 
-        <Button className="mb-4" onClick={handleGenerate}>
+        {/* <Button className="mb-4" onClick={handleGenerate}>
           <RefreshCcw className="w-4 h-4 mr-2" /> הפק אוטומטית
-        </Button>
+        </Button> */}
 
         {error && <div className="text-red-700 bg-red-50 p-3 rounded mb-4 text-sm">{error}</div>}
 

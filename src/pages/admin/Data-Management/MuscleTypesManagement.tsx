@@ -41,7 +41,7 @@ const MuscleTypesManagement: React.FC = () => {
   const updateItem = async () => {
     if (!editing || !editName.trim()) return;
     try {
-      await muscleTypeApi.update(editing.MuscleTypeId, { ...editing, muscleTypeName: editName });
+      await muscleTypeApi.update(editing.muscleTypeId, { ...editing, muscleTypeName: editName });
       setEditing(null);
       fetchItems();
     } catch (e) {
@@ -83,8 +83,8 @@ const MuscleTypesManagement: React.FC = () => {
           {items.length === 0 ? (
             <li className="p-4 text-center text-gray-500">לא נמצאו סוגים</li>
           ) : items.map(item => (
-            <li key={item.MuscleTypeId} className="p-4 flex justify-between items-center">
-              {editing?.MuscleTypeId === item.MuscleTypeId ? (
+            <li key={item.muscleTypeId} className="p-4 flex justify-between items-center">
+              {editing?.muscleTypeId === item.muscleTypeId ? (
                 <div className="flex items-center gap-2 w-full">
                   <Input value={editName} onChange={e => setEditName(e.target.value)} fullWidth />
                   <Button icon={<Save />} onClick={updateItem}>שמור</Button>
@@ -92,10 +92,10 @@ const MuscleTypesManagement: React.FC = () => {
                 </div>
               ) : (
                 <>
-                  <span>{item.MuscleTypeName}</span>
+                  <span>{item.muscleTypeName}</span>
                   <div className="flex gap-2">
-                    <Button icon={<Edit />} onClick={() => { setEditing(item); setEditName(item.MuscleTypeName); }} variant="ghost" size="sm">ערוך</Button>
-                    <Button icon={<Trash />} onClick={() => deleteItem(item.MuscleTypeId)} variant="ghost" size="sm" className="text-red-600">מחק</Button>
+                    <Button icon={<Edit />} onClick={() => { setEditing(item); setEditName(item.muscleTypeName); }} variant="ghost" size="sm">ערוך</Button>
+                    <Button icon={<Trash />} onClick={() => deleteItem(item.muscleTypeId)} variant="ghost" size="sm" className="text-red-600">מחק</Button>
                   </div>
                 </>
               )}

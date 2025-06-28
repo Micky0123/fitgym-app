@@ -79,9 +79,9 @@ const GraphManagement: React.FC = () => {
           </Button>
         </div>
 
-        <Button className="mb-4" onClick={handleGenerate}>
+        {/* <Button className="mb-4" onClick={handleGenerate}>
           <RefreshCcw className="w-4 h-4 mr-2" /> הפק קשתות אוטומטית
-        </Button>
+        </Button> */}
 
         {error && <div className="px-4 py-3 bg-red-50 text-red-700 text-sm mb-4">{error}</div>}
 

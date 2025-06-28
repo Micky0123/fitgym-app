@@ -48,7 +48,11 @@ export interface Exercise {
   exerciseId: number;
   exerciseName: string;
   categoryIds?: number[];
-  muscleIds: number[]; // רשימת מזהי השרירים
+  muscleId: number; // רשימת מזהי השרירים
+  muscleTypeId: number; // מזהה סוג השריר
+  muscleGroupId: number; // מזהה קבוצת השריר
+  active: boolean; // האם התרגיל פעיל
+  count?: number; 
 }
 
 // Goal type
@@ -57,13 +61,11 @@ export interface Goal {
   goalName: string;
 }
 
-// Goal type
 export interface Muscle { 
   muscleId: number;
   muscleName: string;
 }
 
-// Goal type
 export interface Equipment { 
   equipmentId: number;
   equipmentName: string;
@@ -188,8 +190,8 @@ export interface Joint {
 }
 
 export interface MuscleType {
-  MuscleTypeId: number;
-  MuscleTypeName: string;
+  muscleTypeId: number;
+  muscleTypeName: string;
 }
 
 // Muscle group size

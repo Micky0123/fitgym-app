@@ -51,7 +51,7 @@ const AdminDashboard: React.FC = () => {
     },
     { 
       icon: <FolderOpen className="h-10 w-10 text-indigo-600" />, 
-      title: 'ניהול שרירים ומפרקים', 
+      title: 'ניהול שרירים ', 
       description: 'ניהול מידע על שרירים ומפרקים',
       path: '/admin/muscles'
     },
