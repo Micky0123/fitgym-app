@@ -82,11 +82,7 @@ export interface TrainingDuration {
   TrainingDurationId: number;
   TimeTrainingDuration: number;
 }
-// export interface Trainee {
-//   TraineeId: number;
-//   name: string;
-//   // תוכל להוסיף תכונות נוספות כמו גיל, אימייל וכו'
-// }
+
 
 export interface TraineeShort {
   traineeId: number;
@@ -162,27 +158,6 @@ export interface WorkoutStatus {
   isCompleted: boolean;
 }
 
-// // types.ts
-// export interface TrainingPlan {
-//   trainingPlanId: number;
-//   traineeId: number;
-//   goalId: number;
-//   trainingDays: number;
-//   trainingDurationId: number;
-//   fitnessLevelId: number;
-//   startDate: string; // Date as ISO string
-//   endDate: string;   // Date as ISO string
-//   isActive: boolean;
-//   // אפשר להוסיף כאן goalName/levelName/DurationName אם ה-API מחזיר אותם
-// }
-
-
-// Interfaces for API Data
-// interface FitnessLevel {
-//   FitnessLevelId: number;
-//   FitnessLevelName: string;
-//   Description?: string;
-// }
 
 export interface Joint {
   JointId: number;
@@ -208,10 +183,10 @@ export interface TrainingPlan {
   trainingDays: number;
   trainingDurationId: number;
   fitnessLevelId: number;
-  startDate: string; // ISO date string
-  endDate: string;   // ISO date string
+  startDate: string; 
+  endDate: string;  
   isActive: boolean;
-  planDays: PlanDay[]; // וודא שזה קיים כאן!
+  planDays: PlanDay[]; 
 }
 
 
@@ -309,71 +284,55 @@ export interface ExercisePlan {
   orderInDay: number;
   sets: number;
   reps: number;
-  weight?: number; // אופציונלי
-  restTime?: number; // אופציונלי
-  // ... שדות נוספים מ-ExercisePlanDTO מה-backend
-  // נצטרך גם את פרטי התרגיל עצמו, אז אולי נצרף לכאן ExerciseDTO
-  // או שנאחזר אותם בנפרד
-  exercise?: Exercise; // חשוב: אם ה-backend מחזיר את זה בתוך ה-ExercisePlanDTO
+  weight?: number; 
+  restTime?: number; 
+  exercise?: Exercise; 
 }
 
 export interface PlanDay {
   planDayId: number;
-  TrainingPlanId : number; // הוספתי את זה כדי לקשר לתוכנית האימון
+  TrainingPlanId : number;
   ProgramName?: string;
-  dayOrder: number; // שם התוכנית, אם קיים
-  creationDate: string; // תאריך יצירה בפורמט ISO
+  dayOrder: number; 
+  creationDate: string; 
   isDefaultProgram: boolean;
-  parentProgramId?: number | null; // אופציונלי, יכול להיות null אם
+  parentProgramId?: number | null; 
   isHistoricalProgram: boolean; // האם זה תוכנית היסטורית       
 }
 
 
-
-// מודלים לבקשות API (כפי שראינו בקוד ה-C#)
 export interface SchedulerInitRequest {
   slotMinutes: number;
   slotCount: number;
 }
 
 export interface StartWorkoutRequest {
-  trainee: Trainee; // או רק traineeId: number; תלוי מה ה-backend באמת מצפה
-  planday: number; // PlanDayId
-  startTime: string; // DateTime בפורמט ISO string
+  trainee: Trainee; 
+  planday: number;
+  startTime: string; 
 }
 export interface RunAlgorithmRequest {
-  Trainee: number; // שימי לב: זה TraineeId
+  Trainee: number; 
   planday: number;
-  StartTime: string; // או Date, תלוי איך את שולחת את התאריך
+  StartTime: string; 
 }
 
 export interface StartOrCompleteExerciseRequest {
   traineeId: number;
   exerciseId: number;
-  startTime: string; // DateTime בפורמט ISO string - שים לב לשם הפרמטר ב-Complete
+  startTime: string; 
 }
-
-// export interface MultiplePlansResponseItem {
-//   trainingPlan: TrainingPlan;
-//   planDays: PlanDay[];
-// }
-
-
-
-
 
 
 export type PathResultExerciseEntry = {
-  originalExercise: number; // זהו ה-OriginalExercisePlanId מ-Backend
+  originalExercise: number; 
   exerciseId: number; // ה-ExerciseId בפועל שנבחר
   orderInList: number;
-  // ... שדות נוספים מ-PathResultExerciseEntry אם יש
-  //exerciseDetails?: Exercise; // הוסף את זה אם אתה מצפה לפרטי התרגיל המלאים כאן
-};
+ };
 
 export type PathResult = {
   trainee: Trainee;
-  exerciseIdsInPath: { [key: string]: ExerciseEntry }; // Backend שולח Dictionary
+  exerciseIdsInPath: { [key: string]: ExerciseEntry }; 
   startTime: string; // ISO string
   endTime: string; // ISO string
   alternativesUsed: number;
@@ -393,7 +352,7 @@ export type ExerciseStatusEntry = {
   restTime: number | null;
   timesMax: number | null;
   timesMin: number | null;
-  exerciseDetails?: Exercise; // פרטי התרגיל
+  exerciseDetails?: Exercise; 
 };
 
 // ממשק עבור הנתונים הנדרשים לאתחול הסקדולר
@@ -449,11 +408,6 @@ export type ExerciseEntry = {
   isDone: boolean;
   startTime: string | null; // תאריך וזמן ISO
   performedAt: string | null; // תאריך וזמן ISO
-  // sets: number | null;
-  // reps: number | null;
-  // restTime: number | null;
-  // timesMax: number | null;
-  // timesMin: number | null;
   exerciseDetails?: ExercisePlan; // פרטי התרגיל המלאים
 };
 

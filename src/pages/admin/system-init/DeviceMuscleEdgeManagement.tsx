@@ -98,22 +98,6 @@ const DeviceMuscleEdgeManagement: React.FC = () => {
 
         <Card className="p-4">
           <h3 className="text-xl mb-4">רשימת קשתות</h3>
-          {/* {isLoading ? (
-            <p>טוען...</p>
-          ) : edges.length === 0 ? (
-            <p className="text-muted-foreground">אין קשתות להצגה</p>
-          ) : (
-            <ul className="space-y-2">
-              {edges.map((edge) => (
-                <li key={edge.edgeId} className="flex justify-between items-center border-b pb-2">
-                  <span>🔗 מכשיר <strong>{edge.deviceId}</strong> ⬅ שריר <strong>{edge.muscleId}</strong></span>
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(edge.edgeId)} icon={<Trash2 className="w-4 h-4" />}>
-                    מחק
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          )} */}
           {isLoading ? (
             <p>טוען...</p>
           ) : edges.length === 0 ? (

@@ -97,22 +97,7 @@ const MuscleEdgeManagement: React.FC = () => {
 
         <Card className="p-4">
           <h3 className="text-xl mb-4">רשימת קשתות</h3>
-          {/* {isLoading ? (
-            <p>טוען...</p>
-          ) : edges.length === 0 ? (
-            <p className="text-muted-foreground">אין קשתות להצגה</p>
-          ) : (
-            <ul className="space-y-2">
-              {edges.map((edge) => (
-                <li key={edge.muscleEdgeId} className="flex justify-between items-center border-b pb-2">
-                  <span>🔗 שריר <strong>{edge.muscleId1}</strong> ⬅ שריר <strong>{edge.muscleId2}</strong></span>
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(edge.muscleEdgeId)} icon={<Trash2 className="w-4 h-4" />}>
-                    מחק
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          )} */}
+
           {isLoading ? (
             <p>טוען...</p>
           ) : edges.length === 0 ? (

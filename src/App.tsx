@@ -92,7 +92,7 @@ const App: React.FC = () => {
           {isDarkMode ? 'מצב בהיר' : 'מצב כהה'}
         </button>
       </header> */}
-<WorkoutRefreshProvider> {/* עוטפים כאן */}
+    <WorkoutRefreshProvider>
       <Routes>
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
@@ -110,12 +110,7 @@ const App: React.FC = () => {
               <ProfilePage />
             </ProtectedRoute>
           } />
-          {/* <Route path="Workout/:programId" element={
-            <ProtectedRoute>
-              
-              <WorkoutPage traineeId={user?.traineeId ?? 0} planDayId={1} start/>
-            </ProtectedRoute>
-          } /> */}
+          
            <Route  path="WorkoutPage/:planDayId" element={
                 <ProtectedRoute>
                   <WorkoutPage /> 
@@ -225,7 +220,7 @@ const App: React.FC = () => {
             </ProtectedRoute>
           } />
         </Route>
-         <Route path="/trainee-dashboard" element={<TraineeDashboardPage />} /> {/* הוסף ניתוב לדף החדש */}
+         <Route path="/trainee-dashboard" element={<TraineeDashboardPage />} /> 
 
  
         {/* 404 route */}

@@ -110,15 +110,6 @@ const TrainingDayOptionManagement: React.FC = () => {
                   </div>
                 ) : (
                   <div className="flex justify-between items-center">
-                    {/* <span className="text-gray-900">{item.name}</span>
-                    <div className="flex space-x-2 space-x-reverse">
-                      <Button variant="ghost" size="sm" onClick={() => { setEditing(item); setEditName(item.name); }} icon={<Edit className="h-4 w-4" />}>
-                        ערוך
-                      </Button>
-                      <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-800" onClick={() => handleDelete(item.id)} icon={<Trash className="h-4 w-4" />}>
-                        מחק
-                      </Button>
-                    </div> */}
                   </div>
                 )}
               </li>
